@@ -74,6 +74,16 @@ public interface Model {
      */
     void updateFilteredPersonList(Predicate<Person> predicate);
 
+
+    /** Returns an unmodifiable view of the filtered group list */
+    ObservableList<Tag> getFilteredGroupList();
+
+    /**
+     * Updates the filter of the filtered group list to filter by the given {@code predicate}
+     * @throws NullPointerException if {@code predicate} is null.
+     */
+    void updateFilteredGroupList(Predicate<Tag> predicate);
+
     /**
      * @return An unmodifiable view of the sorted person list
      */

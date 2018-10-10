@@ -49,7 +49,7 @@ public class XmlAdaptedPerson {
      * Constructs an {@code XmlAdaptedPerson} with the given person details.
      */
     public XmlAdaptedPerson(String name, String phone, String email, String address,
-                            List<XmlAdaptedTag> tagged, List<XmlAdaptedTag> groupTags) {
+                            List<XmlAdaptedTag> tagged, List<XmlAdaptedTag> grouped) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -57,8 +57,8 @@ public class XmlAdaptedPerson {
         if (tagged != null) {
             this.tagged = new ArrayList<>(tagged);
         }
-        if (groupTags != null) {
-            this.grouped = new ArrayList<>(groupTags);
+        if (grouped != null) {
+            this.grouped = new ArrayList<>(grouped);
         }
     }
 
