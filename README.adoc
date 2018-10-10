@@ -1,7 +1,7 @@
 = FlashBook
 ifdef::env-github,env-browser[:relfileprefix: docs/]
 
-https://travis-ci.org/nus-cs2103-AY1819S1/addressbook-level4[image:https://travis-ci.org/nus-cs2103-AY1819S1/addressbook-level4.svg?branch=master[Build Status]]
+https://travis-ci.org/CS2103-AY1819S1-W17-3/main[image:https://travis-ci.org/CS2103-AY1819S1-W17-3/main.svg?branch=master[Build Status]]
 https://coveralls.io/repos/github/CS2103-AY1819S1-W17-3/main[image:https://coveralls.io/repos/github/CS2103-AY1819S1-W17-3/main/badge.svg?branch=master[Coverage Status]]
 
 ifdef::env-github[]

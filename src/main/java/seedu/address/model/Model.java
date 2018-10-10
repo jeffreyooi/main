@@ -1,9 +1,11 @@
 package seedu.address.model;
 
+import java.nio.file.Path;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.PersonPropertyComparator;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -83,6 +85,17 @@ public interface Model {
     void updateFilteredGroupList(Predicate<Tag> predicate);
 
     /**
+     * @return An unmodifiable view of the sorted person list
+     */
+    ObservableList<Person> getSortedPersonList();
+
+    /**
+     * Updates the sorting of the sorted person list to sort by the given {@code comparator}.
+     * @param personPropertyComparator The comparator to sort the list by.
+     */
+    void updateSortedPersonList(PersonPropertyComparator personPropertyComparator);
+
+    /**
      * Returns true if the model has previous address book states to restore.
      */
     boolean canUndoAddressBook();
@@ -106,4 +119,9 @@ public interface Model {
      * Saves the current address book state for undo/redo.
      */
     void commitAddressBook();
+
+    /**
+     * Export the current address book.
+     */
+    void exportAddressBook(Path filepath);
 }

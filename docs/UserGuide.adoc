@@ -161,6 +161,10 @@ If “then [Command]”  is inserted after find, the [Command] will be applied t
 Thus it is possible to run commands like
 “in CS2101 findwhere then delete” to delete every task under CS2101
 
+=== Sort the list: `sort`
+
+Sorts the current displayed list based on the given property. +
+Format: `sort [TODO]` +
 
 
 === Selecting a task : `select`
@@ -193,17 +197,30 @@ Display all existing tasks on the display.
 Change the tag the selected task to “done”.
 To reverse this, find and select the task then use the changeto command
 
-=== Import tasks : `import`
+=== Import Persons : `import`
 
-User is able to import other users tasks. +
+User is able to import FlashBook or any AddressBook-level4. +
+
+****
+FlashBook is backward compatible to AddressBook-level4. +
+
+This means that users of AddressBook-level4 are able to upgrade to use FlashBook by just importing their AddressBook-level4 storage file. +
+****
 Format: `import <relative filepath>`
 
-=== Export tasks : `export`
+Example:
+`import /f flashBookBackUp.xml` : import `flashBookBackUp.xml` into FlashBook.
+`import /f addressBookBackUp.xml` : import `addressBookBackUp.xml` into FlashBook even if the imported file is Addressbook and not FlashBook.
 
-User is able to export tasks to store as backup elsewhere or send tasks to other users of Flashbook. +
+=== Export Persons : `export`
+
+User is able to export FlashBook as backup elsewhere. +
 Format: +
-`Export all tasks : export * <relative filepath>` +
-`Export all tasks of [Module Name]: export #[Module Name] <relative filepath>`
+`export \f <filepath>`
+
+Example:
+
+`export \f backup.xml` : Export FlashBook as `backup.xml`.
 
 === Autocomplete
 
@@ -249,5 +266,5 @@ e.g. `select 1`
 * *Going back to the parent task* : `back / b`
 * *List all tasks* : `list`
 * *Marking the selected task as done* : `markdone / md`
-* *Import tasks* : `import`
-* *Export tasks* : `export`
+* *Import tasks* : `import /f <filepath>`
+* *Export tasks* : `export /f <filepath>`

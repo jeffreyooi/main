@@ -19,20 +19,19 @@ public class Group {
 
     // Identity fields
     private final Title title;
+    private final Description description;
 
     // Data fields
-    private final Place place;
-    private final Date date;
-    private final Description description;
-    private final UniquePersonList members = new UniquePersonList();
+    private final Meeting meeting;
+    private final UniquePersonList members;
 
     /**
-     * Constructor for a simple group which requires no meeting
-     * details(i.e. date & place).
+     * Constructor for a simple group which requires no meeting details.
+     * Members field is initialised to be empty.
      *
      * Title and description are guaranteed to be present and non-null.
      *
-     * However, the date and place can still be updated later.
+     * However, the meeting can be null and update later.
      *
      * @param title The name of the group
      * @param description The description of the group or the agenda of meeting
@@ -41,41 +40,77 @@ public class Group {
         requireAllNonNull(title, description);
         this.title = title;
         this.description = description;
-        this.date = null;
-        this.place = null;
+        this.meeting = null;
+        this.members = new UniquePersonList();
+    }
+
+    /**
+     * Constructor for a simple group, where title, description and meeting
+     * must be present. Members field is initialised to be empty.
+     *
+     * @param title The name of the group
+     * @param description The description of the group or the agenda of meeting
+     * @param meeting The upcoming meeting for people in this group
+     */
+    public Group(Title title, Description description, Meeting meeting) {
+        requireAllNonNull(title, meeting, description);
+        this.title = title;
+        this.description = description;
+        this.meeting = meeting;
+        this.members = new UniquePersonList();
+    }
+
+    /**
+     * Constructor for a simple group, where all details
+     * must be present. Members field is initialised to an existing list of members.
+     *
+     * @param title The name of the group
+     * @param description The description of the group or the agenda of meeting
+     * @param members The list of members of the group
+     */
+    public Group(Title title, Description description, UniquePersonList members) {
+        requireAllNonNull(title, description, members);
+        this.title = title;
+        this.description = description;
+        this.meeting = null;
+        this.members = members;
     }
 
     /**
      * Constructor for a full description of group, where all details
-     * must be present
+     * must be present. Members field is initialised to an existing list of members.
      *
      * @param title The name of the group
-     * @param place The location of group meeting
-     * @param date The specific date of the next meeting
      * @param description The description of the group or the agenda of meeting
+     * @param meeting The upcoming meeting for people in this group
+     * @param members The list of members of the group
      */
-    public Group(Title title, Place place, Date date, Description description) {
-        requireAllNonNull(title, place, date, description);
+    public Group(Title title, Description description, Meeting meeting,
+                 UniquePersonList members) {
+        requireAllNonNull(title, meeting, description, members);
         this.title = title;
-        this.place = place;
-        this.date = date;
         this.description = description;
+        this.meeting = meeting;
+        this.members = members;
     }
+
 
     public Title getTitle() {
         return title;
     }
 
-    public Place getPlace() {
-        return place;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
     public Description getDescription() {
         return description;
+    }
+
+    public Meeting getMeeting() {
+        return meeting;
+    }
+
+    public UniquePersonList getMembers() {
+        UniquePersonList toList = new UniquePersonList();
+        toList.setPersons(members);
+        return toList;
     }
 
     /**
@@ -83,7 +118,7 @@ public class Group {
      * throws {@code UnsupportedOperationException} if modification
      * is attempted.
      */
-    public List<Person> getMembers() {
+    public List<Person> getMembersView() {
         return Collections.unmodifiableList(members.asUnmodifiableObservableList());
     }
 
@@ -117,16 +152,15 @@ public class Group {
 
         Group otherGroup = (Group) other;
         return otherGroup.getTitle().equals(getTitle())
-                && otherGroup.getPlace().equals(getPlace())
-                && otherGroup.getDate().equals(getDate())
                 && otherGroup.getDescription().equals(getDescription())
-                && otherGroup.getMembers().equals(getMembers());
+                && otherGroup.getMeeting().equals(getMeeting())
+                && otherGroup.getMembersView().equals(getMembersView());
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(title, place, date, description, members);
+        return Objects.hash(title, meeting, description, members);
     }
 
     @Override
@@ -135,11 +169,8 @@ public class Group {
         builder.append(getTitle() + "\n")
                 .append("Description: ")
                 .append(getDescription() + "\n")
-                .append("Next meeting: ")
-                .append(getDate() + "\n")
-                .append(getPlace() + "\n")
-                .append("Members: ");
-        getMembers().forEach(member -> builder.append(member + "\n"));
+                .append("Next meeting details: ")
+                .append(getMeeting() + "\n");
 
         return builder.toString();
     }

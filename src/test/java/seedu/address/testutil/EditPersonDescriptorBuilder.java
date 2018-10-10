@@ -37,6 +37,7 @@ public class EditPersonDescriptorBuilder {
         descriptor.setEmail(person.getEmail());
         descriptor.setAddress(person.getAddress());
         descriptor.setTags(person.getTags());
+        descriptor.setGroupTags(person.getGroupTags());
     }
 
     /**
@@ -80,6 +81,17 @@ public class EditPersonDescriptorBuilder {
         descriptor.setTags(tagSet);
         return this;
     }
+
+    /**
+     * Parses the {@code groupTags} into a {@code Set<Tag>} and set it to the {@code EditPersonDescriptor}
+     * that we are building.
+     */
+    public EditPersonDescriptorBuilder withGroupTags(String... groupTags) {
+        Set<Tag> tagSet = Stream.of(groupTags).map(Tag::new).collect(Collectors.toSet());
+        descriptor.setGroupTags(tagSet);
+        return this;
+    }
+
 
     public EditPersonDescriptor build() {
         return descriptor;
