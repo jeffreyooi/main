@@ -31,6 +31,8 @@ public class XmlAdaptedGroupTest {
     private static final List<XmlAdaptedPerson> VALID_MEMBERS = NUS_COMPUTING.getMembersView()
             .stream().map(XmlAdaptedPerson::new).collect(Collectors.toList());
 
+    private static final String VALID_COLOR = NUS_COMPUTING.getColorString();
+
     @Test
     public void toModelType_validGroupDetails_returnsGroup() throws Exception {
         XmlAdaptedGroup group = new XmlAdaptedGroup(NUS_COMPUTING);
@@ -41,7 +43,7 @@ public class XmlAdaptedGroupTest {
     public void toModelType_invalidTitle_throwsIllegalValueException() {
         XmlAdaptedGroup group =
                 new XmlAdaptedGroup(
-                        INVALID_TITLE, VALID_DESCRIPTION, VALID_MEETING, VALID_MEMBERS);
+                        INVALID_TITLE, VALID_DESCRIPTION, VALID_MEETING, VALID_MEMBERS, VALID_COLOR);
         String expectedMessage = Title.MESSAGE_TITLE_CONSTRAINTS;
         Assert.assertThrows(IllegalValueException.class, expectedMessage, group::toModelType);
     }
@@ -50,7 +52,7 @@ public class XmlAdaptedGroupTest {
     public void toModelType_nullTitle_throwsIllegalValueException() {
         XmlAdaptedGroup group =
                 new XmlAdaptedGroup(
-                        null, VALID_DESCRIPTION, VALID_MEETING, VALID_MEMBERS);
+                        null, VALID_DESCRIPTION, VALID_MEETING, VALID_MEMBERS, VALID_COLOR);
         String expectedMessage = String.format(MISSING_FIELD_MESSAGE_FORMAT, Title.class.getSimpleName());
         Assert.assertThrows(IllegalValueException.class, expectedMessage, group::toModelType);
     }
@@ -59,7 +61,7 @@ public class XmlAdaptedGroupTest {
     public void toModelType_invalidDescription_throwsIllegalValueException() {
         XmlAdaptedGroup group =
                 new XmlAdaptedGroup(
-                        VALID_TITLE, INVALID_DESCRIPTION, VALID_MEETING, VALID_MEMBERS);
+                        VALID_TITLE, INVALID_DESCRIPTION, VALID_MEETING, VALID_MEMBERS, VALID_COLOR);
 
         String expectedMessage = Description.MESSAGE_DESCRIPTION_CONSTRAINTS;
         Assert.assertThrows(IllegalValueException.class, expectedMessage, group::toModelType);
@@ -69,7 +71,7 @@ public class XmlAdaptedGroupTest {
     public void toModelType_nullDescription_success() throws Exception {
         XmlAdaptedGroup group =
                 new XmlAdaptedGroup(
-                        VALID_TITLE, null, VALID_MEETING, VALID_MEMBERS);
+                        VALID_TITLE, null, VALID_MEETING, VALID_MEMBERS, VALID_COLOR);
         UniquePersonList upl = new UniquePersonList();
         for (XmlAdaptedPerson p: VALID_MEMBERS) {
             upl.add(p.toModelType());
@@ -82,7 +84,7 @@ public class XmlAdaptedGroupTest {
     public void toModelType_nullMeeting_success() throws Exception {
         XmlAdaptedGroup group =
                 new XmlAdaptedGroup(
-                        VALID_TITLE, VALID_DESCRIPTION, null, VALID_MEMBERS);
+                        VALID_TITLE, VALID_DESCRIPTION, null, VALID_MEMBERS, VALID_COLOR);
         UniquePersonList upl = new UniquePersonList();
         for (XmlAdaptedPerson p: VALID_MEMBERS) {
             upl.add(p.toModelType());
@@ -97,7 +99,7 @@ public class XmlAdaptedGroupTest {
 
         // same values -> returns true
         XmlAdaptedGroup xmlAdaptedGroupWithSameValues =
-                new XmlAdaptedGroup(VALID_TITLE, VALID_DESCRIPTION, VALID_MEETING, VALID_MEMBERS);
+                new XmlAdaptedGroup(VALID_TITLE, VALID_DESCRIPTION, VALID_MEETING, VALID_MEMBERS, VALID_COLOR);
         assertTrue(standardGroup.equals(xmlAdaptedGroupWithSameValues));
 
         // same object -> returns true
@@ -111,21 +113,21 @@ public class XmlAdaptedGroupTest {
 
         // different title -> returns false
         assertFalse(standardGroup.equals(new XmlAdaptedGroup(NUS_BASKETBALL.getTitle().fullTitle,
-                VALID_DESCRIPTION, VALID_MEETING, VALID_MEMBERS)));
+                VALID_DESCRIPTION, VALID_MEETING, VALID_MEMBERS, VALID_COLOR)));
 
         // different description -> returns false
         assertFalse(standardGroup.equals(new XmlAdaptedGroup(VALID_TITLE,
-                NUS_BASKETBALL.getDescription().statement, VALID_MEETING, VALID_MEMBERS)));
+                NUS_BASKETBALL.getDescription().statement, VALID_MEETING, VALID_MEMBERS, VALID_COLOR)));
 
         // different meeting -> returns false
         assertFalse(standardGroup.equals(new XmlAdaptedGroup(VALID_TITLE,
-                VALID_DESCRIPTION, new XmlAdaptedMeeting(NUS_BASKETBALL.getMeeting()), VALID_MEMBERS)));
+                VALID_DESCRIPTION, new XmlAdaptedMeeting(NUS_BASKETBALL.getMeeting()), VALID_MEMBERS, VALID_COLOR)));
 
         // different members -> returns false
         assertFalse(standardGroup.equals(new XmlAdaptedGroup(VALID_TITLE,
                 VALID_DESCRIPTION, VALID_MEETING,
                 NUS_BASKETBALL.getMembersView().stream().map(XmlAdaptedPerson::new)
-                .collect(Collectors.toList()))));
+                .collect(Collectors.toList()), VALID_COLOR)));
 
     }
 }

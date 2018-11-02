@@ -1,9 +1,19 @@
 package seedu.meeting.ui;
 
+import java.util.logging.Logger;
+
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import seedu.meeting.commons.core.LogsCenter;
+import seedu.meeting.commons.exceptions.IllegalValueException;
+import seedu.meeting.commons.util.ColorUtil;
 import seedu.meeting.model.group.Group;
 import seedu.meeting.model.meeting.Meeting;
 import seedu.meeting.model.shared.Description;
@@ -14,9 +24,13 @@ import seedu.meeting.model.shared.Description;
  */
 public class GroupCard extends UiPart<Region> {
 
+    private static final Logger logger = LogsCenter.getLogger(GroupCard.class);
     private static final String FXML = "GroupListCard.fxml";
 
     public final Group group;
+
+    @FXML
+    private Pane colorPane;
 
     @FXML
     private HBox groupCardPane;
@@ -49,6 +63,12 @@ public class GroupCard extends UiPart<Region> {
         groupMeeting.setText(meetingString);
         int membersCount = group.getMembersView().size();
         memberCount.setText(String.format("%d", membersCount));
+        try {
+            colorPane.setBackground(new Background(new BackgroundFill(ColorUtil.parseColor(group.getColorString()),
+                new CornerRadii(4), Insets.EMPTY)));
+        } catch (IllegalValueException ive) {
+            logger.warning("Failed to parse color: " + group.getColorString() + "\n" + ive);
+        }
     }
 
     @Override

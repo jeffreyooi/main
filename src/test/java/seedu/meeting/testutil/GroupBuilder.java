@@ -4,6 +4,7 @@ import static seedu.meeting.testutil.TypicalMeetings.WEEKLY;
 
 import java.util.Optional;
 
+import seedu.meeting.commons.util.ColorUtil;
 import seedu.meeting.model.group.Group;
 import seedu.meeting.model.meeting.Meeting;
 import seedu.meeting.model.person.Person;
@@ -27,6 +28,7 @@ public class GroupBuilder {
     private Description description;
     private Meeting meeting;
     private UniquePersonList members;
+    private String color;
     private boolean isMemberModified = false;
 
     public GroupBuilder() {
@@ -34,6 +36,7 @@ public class GroupBuilder {
         description = new Description(DEFAULT_DESCRIPTION);
         meeting = DEFAULT_MEETING;
         members = new UniquePersonList();
+        color = ColorUtil.getRandomColorString();
     }
 
     /**
@@ -44,6 +47,7 @@ public class GroupBuilder {
         description = groupToCopy.getDescription();
         meeting = groupToCopy.getMeeting();
         members = groupToCopy.getMembers();
+        color = groupToCopy.getColorString();
         isMemberModified = true;
     }
 
@@ -90,6 +94,14 @@ public class GroupBuilder {
     }
 
     /**
+     * Sets the color of the {@code Group} that we are building.
+     */
+    public GroupBuilder withColorString(String colorString) {
+        this.color = colorString;
+        return this;
+    }
+
+    /**
      * Build a new group from GroupBuilder
      *
      * @return The new group
@@ -103,8 +115,10 @@ public class GroupBuilder {
             group = new Group(title, description, members);
         } else if (!isMemberModified) {
             group = new Group(title, description, meeting);
-        } else {
+        } else if (color == null || color.isEmpty()) {
             group = new Group(title, Optional.of(description), Optional.of(meeting), members);
+        } else {
+            group = new Group(title, Optional.of(description), Optional.of(meeting), members, color);
         }
 
         return group;

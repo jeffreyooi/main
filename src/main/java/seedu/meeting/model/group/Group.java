@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import seedu.meeting.commons.util.ColorUtil;
 import seedu.meeting.model.group.exceptions.GroupHasNoMeetingException;
 import seedu.meeting.model.meeting.Meeting;
 import seedu.meeting.model.person.Person;
@@ -32,6 +33,8 @@ import seedu.meeting.model.shared.Title;
  */
 public class Group {
 
+    private final String colorString;
+
     // Identity fields
     private final Title title;
     private final Optional<Description> description;
@@ -54,6 +57,7 @@ public class Group {
         this.description = Optional.empty();
         this.meeting = Optional.empty();
         this.members = new UniquePersonList();
+        this.colorString = ColorUtil.getRandomColorString();
     }
 
     /**
@@ -70,6 +74,7 @@ public class Group {
         this.description = Optional.of(description);
         this.meeting = Optional.of(meeting);
         this.members = new UniquePersonList();
+        this.colorString = ColorUtil.getRandomColorString();
     }
 
     /**
@@ -87,6 +92,7 @@ public class Group {
         this.meeting = Optional.of(meeting);
         this.members = new UniquePersonList();
         this.members.setPersons(members);
+        this.colorString = ColorUtil.getRandomColorString();
     }
 
     /**
@@ -104,6 +110,7 @@ public class Group {
         this.meeting = Optional.empty();
         this.members = new UniquePersonList();
         this.members.setPersons(members);
+        this.colorString = ColorUtil.getRandomColorString();
     }
 
     /**
@@ -123,6 +130,27 @@ public class Group {
         this.meeting = meeting;
         this.members = new UniquePersonList();
         this.members.setPersons(members);
+        this.colorString = ColorUtil.getRandomColorString();
+    }
+
+    /**
+     * Constructor for a full description of group. All fields must be present and non-null.
+     * Members field is initialised to an existing list of members.
+     *
+     * @param title The name of the group
+     * @param description The description of the group or the agenda of meeting
+     * @param meeting The upcoming meeting for people in this group
+     * @param members The list of members of the group
+     */
+    public Group(Title title, Optional<Description> description, Optional<Meeting> meeting,
+                 UniquePersonList members, String colorString) {
+        requireAllNonNull(title, meeting, description, members);
+        this.title = title;
+        this.description = description;
+        this.meeting = meeting;
+        this.members = new UniquePersonList();
+        this.members.setPersons(members);
+        this.colorString = colorString;
     }
 
 
@@ -256,7 +284,7 @@ public class Group {
      * The returned copy should return {@code true} for method {@code equals()} with the original group.
      */
     public Group copy() {
-        return new Group(title, description, meeting, members);
+        return new Group(title, description, meeting, members, colorString);
     }
 
     /**
@@ -270,6 +298,10 @@ public class Group {
 
         return otherGroup != null
                 && otherGroup.getTitle().equals(getTitle());
+    }
+
+    public String getColorString() {
+        return colorString;
     }
 
     /**

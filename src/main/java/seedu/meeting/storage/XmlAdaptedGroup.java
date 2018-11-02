@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import javax.xml.bind.annotation.XmlElement;
 
 import seedu.meeting.commons.exceptions.IllegalValueException;
+import seedu.meeting.commons.util.ColorUtil;
 import seedu.meeting.model.group.Group;
 import seedu.meeting.model.meeting.Meeting;
 import seedu.meeting.model.person.UniquePersonList;
@@ -24,6 +25,8 @@ public class XmlAdaptedGroup {
 
     public static final String MISSING_FIELD_MESSAGE_FORMAT = "Group's %s field is missing!";
 
+    @XmlElement
+    private String color;
     @XmlElement(required = true)
     private String title;
     @XmlElement(required = true)
@@ -44,11 +47,12 @@ public class XmlAdaptedGroup {
      * Constructs an {@code XmlAdaptedGroup} with the given group details.
      */
     public XmlAdaptedGroup(String title, String description, XmlAdaptedMeeting meeting,
-                           List<XmlAdaptedPerson> members) {
+                           List<XmlAdaptedPerson> members, String color) {
         this.title = title;
         this.description = description;
         this.meeting = meeting;
         this.members.addAll(members);
+        this.color = color;
     }
 
     /**
@@ -67,6 +71,7 @@ public class XmlAdaptedGroup {
         members = source.getMembersView().stream()
                 .map(XmlAdaptedPerson::new)
                 .collect(Collectors.toList());
+        color = source.getColorString();
     }
 
     /**
@@ -105,8 +110,16 @@ public class XmlAdaptedGroup {
         } else {
             modelMeeting = Optional.of(meeting.toModelType());
         }
+
+        String modelColor;
+        if (color == null) {
+            modelColor = ColorUtil.getRandomColorString();
+        } else {
+            modelColor = color;
+        }
+
         return new Group(modelTitle, modelDescription,
-                modelMeeting, modelMembers);
+                modelMeeting, modelMembers, modelColor);
     }
 
 
@@ -124,6 +137,7 @@ public class XmlAdaptedGroup {
         return Objects.equals(title, otherGroup.title)
                 && Objects.equals(description, otherGroup.description)
                 && Objects.equals(meeting, otherGroup.meeting)
-                && Objects.equals(members, otherGroup.members);
+                && Objects.equals(members, otherGroup.members)
+                && Objects.equals(color, otherGroup.color);
     }
 }

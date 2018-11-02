@@ -24,6 +24,8 @@ import seedu.meeting.model.group.Group;
  */
 public class TypicalGroups {
 
+    public static final String RED = "255,0,0";
+
     public static final Group PROJECT_2103T = new GroupBuilder().withTitle("CS2103T Project Team")
             .withDescription("Project group for module CS2103T").withMeeting(WEEKLY)
             .withNewPerson(ALICE).build();
@@ -34,7 +36,8 @@ public class TypicalGroups {
     public static final Group NUS_COMPUTING = new GroupBuilder().withTitle("COMPUTING")
             .withDescription("Discussion group for Soc students")
             .withMeeting(DISCUSSION)
-            .withNewPerson(CARL).withNewPerson(DANIEL).withNewPerson(ELLE).build();
+            .withNewPerson(CARL).withNewPerson(DANIEL).withNewPerson(ELLE)
+            .withColorString(RED).build();
 
     public static final Group NUS_BASKETBALL = new GroupBuilder().withTitle("Basketball Clique")
             .withDescription("NUS basketball")
