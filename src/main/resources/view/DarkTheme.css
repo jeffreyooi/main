@@ -356,3 +356,14 @@
     -fx-background-radius: 2;
     -fx-font-size: 11;
 }
+
+#groups {
+    -fx-hgap: 7;
+    -fx-vgap: 3;
+}
+
+#groups .label {
+    -fx-text-fill: white;
+    -fx-padding: 1 3 1 3;
+    -fx-font-size: 11;
+}

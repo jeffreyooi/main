@@ -1,10 +1,19 @@
 package seedu.meeting.ui;
 
+import java.util.logging.Logger;
+
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import seedu.meeting.commons.core.LogsCenter;
+import seedu.meeting.commons.exceptions.IllegalValueException;
+import seedu.meeting.commons.util.ColorUtil;
 import seedu.meeting.model.person.Person;
 
 /**
@@ -12,6 +21,7 @@ import seedu.meeting.model.person.Person;
  */
 public class PersonCard extends UiPart<Region> {
 
+    private static final Logger logger = LogsCenter.getLogger(PersonCard.class);
     private static final String FXML = "PersonListCard.fxml";
 
     /**
@@ -38,6 +48,8 @@ public class PersonCard extends UiPart<Region> {
     private Label email;
     @FXML
     private FlowPane tags;
+    @FXML
+    private FlowPane groups;
 
     public PersonCard(Person person, int displayedIndex) {
         super(FXML);
@@ -48,6 +60,16 @@ public class PersonCard extends UiPart<Region> {
         address.setText(person.getAddress().value);
         email.setText(person.getEmail().value);
         person.getTags().forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        person.getGroups().forEach(group -> {
+            Label label = new Label(group.getTitle().fullTitle);
+            try {
+                label.setBackground(new Background(new BackgroundFill(ColorUtil.parseColor(group.getColorString()),
+                    new CornerRadii(4), Insets.EMPTY)));
+            } catch (IllegalValueException ive) {
+                logger.warning("Failed to parse color: " + group.getColorString() + "\n" + ive.getMessage());
+            }
+            groups.getChildren().add(label);
+        });
     }
 
     @Override
@@ -65,6 +87,10 @@ public class PersonCard extends UiPart<Region> {
         // state check
         PersonCard card = (PersonCard) other;
         return id.getText().equals(card.id.getText())
-                && person.equals(card.person);
+                && person.equals(card.person)
+                && name.getText().equals(card.name.getText())
+                && phone.getText().equals(card.phone.getText())
+                && address.getText().equals(card.address.getText())
+                && email.getText().equals(card.email.getText());
     }
 }

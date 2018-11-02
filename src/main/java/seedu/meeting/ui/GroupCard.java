@@ -67,7 +67,7 @@ public class GroupCard extends UiPart<Region> {
             colorPane.setBackground(new Background(new BackgroundFill(ColorUtil.parseColor(group.getColorString()),
                 new CornerRadii(4), Insets.EMPTY)));
         } catch (IllegalValueException ive) {
-            logger.warning("Failed to parse color: " + group.getColorString() + "\n" + ive);
+            logger.warning("Failed to parse color: " + group.getColorString() + "\n" + ive.getMessage());
         }
     }
 
