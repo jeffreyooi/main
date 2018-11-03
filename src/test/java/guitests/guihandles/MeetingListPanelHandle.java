@@ -1,6 +1,7 @@
 package guitests.guihandles;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javafx.scene.Node;
@@ -16,10 +17,18 @@ public class MeetingListPanelHandle extends NodeHandle<ListView<Meeting>> {
 
     private static final String CARD_PANE_ID = "#meetingCardPane";
 
+    private Optional<Meeting> lastRememberedSelectedMeetingCard;
+
     public MeetingListPanelHandle(ListView<Meeting> meetingListPanelNode) {
         super(meetingListPanelNode);
     }
 
+    /**
+     * Returns a handle to the selected {@code MeetingCardHandle}.
+     * A maximum of 1 item can be selected at any time.
+     * @throws AssertionError if no card is selected, or more than 1 card is selected.
+     * @throws IllegalStateException if the selected card is currently not in the scene graph.
+     */
     public MeetingCardHandle getHandleToSelectedCard() {
         List<Meeting> selectedMeetingList = getRootNode().getSelectionModel().getSelectedItems();
 
@@ -32,6 +41,42 @@ public class MeetingListPanelHandle extends NodeHandle<ListView<Meeting>> {
             .filter(handle -> handle.equals(selectedMeetingList.get(0)))
             .findFirst()
             .orElseThrow(IllegalStateException::new);
+    }
+
+
+    /**
+     * Returns the index of the selected card.
+     */
+    public int getSelectedCardIndex() {
+        return getRootNode().getSelectionModel().getSelectedIndex();
+    }
+
+    /**
+     * Navigates the listview to display {@code meeting}.
+     */
+    public void navigateToCard(Meeting meeting) {
+        if (!getRootNode().getItems().contains(meeting)) {
+            throw new IllegalArgumentException("Group does not exist.");
+        }
+
+        guiRobot.interact(() -> {
+            getRootNode().scrollTo(meeting);
+        });
+        guiRobot.pauseForHuman();
+    }
+
+    /**
+     * Navigates the listview to {@code index}.
+     */
+    public void navigateToCard(int index) {
+        if (index < 0 || index >= getRootNode().getItems().size()) {
+            throw new IllegalArgumentException("Index is out of bounds.");
+        }
+
+        guiRobot.interact(() -> {
+            getRootNode().scrollTo(index);
+        });
+        guiRobot.pauseForHuman();
     }
 
     /**
@@ -57,5 +102,33 @@ public class MeetingListPanelHandle extends NodeHandle<ListView<Meeting>> {
      */
     private Set<Node> getAllCardNodes() {
         return guiRobot.lookup(CARD_PANE_ID).queryAll();
+    }
+
+    /**
+     * Remembers the selected {@code MeetingCard} in the list.
+     */
+    public void rememberSelectedMeetingCard() {
+        List<Meeting> selectedItems = getRootNode().getSelectionModel().getSelectedItems();
+
+        if (selectedItems.size() == 0) {
+            lastRememberedSelectedMeetingCard = Optional.empty();
+        } else {
+            lastRememberedSelectedMeetingCard = Optional.of(selectedItems.get(0));
+        }
+    }
+
+    /**
+     * Returns true if the selected {@code MeetingCard} is different from the value remembered by the most recent
+     * {@code rememberSelectedMeetingCard()} call.
+     */
+    public boolean isSelectedMeetingCardChanged() {
+        List<Meeting> selectedItems = getRootNode().getSelectionModel().getSelectedItems();
+
+        if (selectedItems.size() == 0) {
+            return lastRememberedSelectedMeetingCard.isPresent();
+        } else {
+            return !lastRememberedSelectedMeetingCard.isPresent()
+                || !lastRememberedSelectedMeetingCard.get().equals(selectedItems.get(0));
+        }
     }
 }

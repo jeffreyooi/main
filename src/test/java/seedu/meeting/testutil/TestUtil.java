@@ -66,4 +66,18 @@ public class TestUtil {
     public static Index getGroupLastIndex(Model model) {
         return Index.fromOneBased(model.getFilteredGroupList().size());
     }
+
+    /**
+     * Returns the middle index of the meeting in the {@code model}'s meeting list.
+     */
+    public static Index getMeetingMidIndex(Model model) {
+        return Index.fromOneBased(model.getFilteredMeetingList().size() / 2);
+    }
+
+    /**
+     * Returns the last index of the meeting in the {@code model}'s meeting list.
+     */
+    public static Index getMeetingLastIndex(Model model) {
+        return Index.fromOneBased(model.getFilteredMeetingList().size());
+    }
 }

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import guitests.guihandles.GroupCardHandle;
 import guitests.guihandles.GroupListPanelHandle;
 import guitests.guihandles.MeetingCardHandle;
+import guitests.guihandles.MeetingListPanelHandle;
 import guitests.guihandles.PersonCardHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
@@ -124,6 +125,26 @@ public class GuiTestAssert {
      */
     public static void assertGroupListMatching(GroupListPanelHandle groupListPanelHandle, List<Group> groups) {
         assertGroupListMatching(groupListPanelHandle, groups.toArray(new Group[0]));
+    }
+
+    /**
+     * Asserts that the list in {@code groupListPanelHandle} displays the details of {@code groups} correctly and in
+     * the correct order.
+     */
+    public static void assertMeetingListMatching(MeetingListPanelHandle meetingListPanelHandle, Meeting... meetings) {
+        for (int i = 0; i < meetings.length; i++) {
+            meetingListPanelHandle.navigateToCard(i);
+            assertCardDisplaysMeeting(meetings[i], meetingListPanelHandle.getMeetingCardHandle(i));
+        }
+    }
+
+    /**
+     * Asserts that the list in {@code groupListPanelHandle} displays the details of {@code groups} correctly and in
+     * the correct order.
+     */
+    public static void assertMeetingListMatching(MeetingListPanelHandle meetingListPanelHandle,
+                                                 List<Meeting> meetings) {
+        assertMeetingListMatching(meetingListPanelHandle, meetings.toArray(new Meeting[0]));
     }
 
     /**

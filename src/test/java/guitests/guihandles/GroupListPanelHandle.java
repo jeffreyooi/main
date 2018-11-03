@@ -65,7 +65,6 @@ public class GroupListPanelHandle extends NodeHandle<ListView<Group>> {
 
     /**
      * Navigates the listview to display {@code group}.
-     * @param group
      */
     public void navigateToCard(Group group) {
         if (!getRootNode().getItems().contains(group)) {

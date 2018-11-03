@@ -7,6 +7,7 @@ import static seedu.meeting.ui.StatusBarFooter.SYNC_STATUS_INITIAL;
 import static seedu.meeting.ui.StatusBarFooter.SYNC_STATUS_UPDATED;
 import static seedu.meeting.ui.testutil.GuiTestAssert.assertGroupListMatching;
 import static seedu.meeting.ui.testutil.GuiTestAssert.assertListMatching;
+import static seedu.meeting.ui.testutil.GuiTestAssert.assertMeetingListMatching;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,6 +24,7 @@ import guitests.guihandles.CommandBoxHandle;
 import guitests.guihandles.GroupListPanelHandle;
 import guitests.guihandles.MainMenuHandle;
 import guitests.guihandles.MainWindowHandle;
+import guitests.guihandles.MeetingListPanelHandle;
 import guitests.guihandles.PersonListPanelHandle;
 import guitests.guihandles.ResultDisplayHandle;
 import guitests.guihandles.StatusBarFooterHandle;
@@ -30,6 +32,8 @@ import seedu.meeting.TestApp;
 import seedu.meeting.commons.core.EventsCenter;
 import seedu.meeting.commons.core.index.Index;
 import seedu.meeting.logic.commands.ClearCommand;
+import seedu.meeting.logic.commands.FindGroupCommand;
+import seedu.meeting.logic.commands.FindMeetingCommand;
 import seedu.meeting.logic.commands.FindPersonCommand;
 import seedu.meeting.logic.commands.ListCommand;
 import seedu.meeting.logic.commands.SelectCommand;
@@ -108,6 +112,10 @@ public abstract class MeetingBookSystemTest {
         return mainWindowHandle.getGroupListPanel();
     }
 
+    public MeetingListPanelHandle getMeetingListPanel() {
+        return mainWindowHandle.getMeetingListPanel();
+    }
+
     public StatusBarFooterHandle getStatusBarFooter() {
         return mainWindowHandle.getStatusBarFooter();
     }
@@ -162,6 +170,22 @@ public abstract class MeetingBookSystemTest {
     }
 
     /**
+     * Displays all groups with any parts of their title matching {@code keyword} (case-insensitive).
+     */
+    protected void showGroupsWithName(String keyword) {
+        executeCommand(FindGroupCommand.COMMAND_WORD + " " + FindGroupCommand.FIND_GROUP_PARAM + " " + keyword);
+        assertTrue(getModel().getFilteredGroupList().size() < getModel().getMeetingBook().getGroupList().size());
+    }
+
+    /**
+     * Displays all meetings with any parts of their title matching {@code keyword} (case-insensitive).
+     */
+    protected void showMeetingsWithName(String keyword) {
+        executeCommand(FindMeetingCommand.COMMAND_WORD + " " + FindMeetingCommand.FIND_MEETING_PARAM + " " + keyword);
+        assertTrue(getModel().getFilteredMeetingList().size() < getModel().getMeetingBook().getMeetingList().size());
+    }
+
+    /**
      * Asserts that the {@code CommandBox} displays {@code expectedCommandInput}, the {@code ResultDisplay} displays
      * {@code expectedResultMessage}, the storage contains the same person objects as {@code expectedModel}
      * and the person list panel displays the persons in the model correctly.
@@ -188,11 +212,19 @@ public abstract class MeetingBookSystemTest {
     }
 
     /**
+     * Asserts that the meeting list panel displays the meetings in the model correctly.
+     */
+    protected void assertMeetingListDisplaysExpected(Model expectedModel) {
+        assertMeetingListMatching(getMeetingListPanel(), expectedModel.getFilteredMeetingList());
+    }
+
+    /**
      * Calls {@code PersonListPanelHandle} and {@code StatusBarFooterHandle} to remember their current state.
      */
     private void rememberStates() {
         StatusBarFooterHandle statusBarFooterHandle = getStatusBarFooter();
         getGroupListPanel().rememberSelectedGroupCard();
+        getMeetingListPanel().rememberSelectedMeetingCard();
         statusBarFooterHandle.rememberSaveLocation();
         statusBarFooterHandle.rememberSyncStatus();
         getPersonListPanel().rememberSelectedPersonCard();
@@ -226,6 +258,15 @@ public abstract class MeetingBookSystemTest {
     }
 
     /**
+     * Asserts that only the meeting card at {@code expectedSelectedCardIndex} is selected.
+     * @see MeetingListPanelHandle#isSelectedMeetingCardChanged()
+     */
+    protected void assertSelectedMeetingCardChanged(Index expectedSelectedCardIndex) {
+        getMeetingListPanel().navigateToCard(getMeetingListPanel().getSelectedCardIndex());
+        assertEquals(expectedSelectedCardIndex.getZeroBased(), getMeetingListPanel().getSelectedCardIndex());
+    }
+
+    /**
      * Asserts that the selected card in the person list panel remain unchanged.
      * @see PersonListPanelHandle#isSelectedPersonCardChanged()
      */
@@ -235,10 +276,19 @@ public abstract class MeetingBookSystemTest {
 
     /**
      * Asserts that the selected card in the group list panel remain unchanged.
+     * @see GroupListPanelHandle#isSelectedGroupCardChanged()
      * TODO check if person list panel is updated
      */
     protected void assertSelectedGroupCardUnchanged() {
         assertFalse(getGroupListPanel().isSelectedGroupCardChanged());
+    }
+
+    /**
+     * Asserts that the selected card in the group list panel remain unchanged.
+     * @see GroupListPanelHandle#isSelectedGroupCardChanged()
+     */
+    protected void assertSelectedMeetingCardUnchanged() {
+        assertFalse(getMeetingListPanel().isSelectedMeetingCardChanged());
     }
 
     /**

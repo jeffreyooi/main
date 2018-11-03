@@ -13,6 +13,7 @@ public class MainWindowHandle extends StageHandle {
     private final StatusBarFooterHandle statusBarFooter;
     private final MainMenuHandle mainMenu;
     private final GroupListPanelHandle groupListPanel;
+    private final MeetingListPanelHandle meetingListPanel;
 
     public MainWindowHandle(Stage stage) {
         super(stage);
@@ -23,6 +24,7 @@ public class MainWindowHandle extends StageHandle {
         statusBarFooter = new StatusBarFooterHandle(getChildNode(StatusBarFooterHandle.STATUS_BAR_PLACEHOLDER));
         mainMenu = new MainMenuHandle(getChildNode(MainMenuHandle.MENU_BAR_ID));
         groupListPanel = new GroupListPanelHandle(getChildNode(GroupListPanelHandle.GROUP_LIST_VIEW_ID));
+        meetingListPanel = new MeetingListPanelHandle(getChildNode(MeetingListPanelHandle.MEETING_LIST_VIEW_ID));
     }
 
     public PersonListPanelHandle getPersonListPanel() {
@@ -47,5 +49,9 @@ public class MainWindowHandle extends StageHandle {
 
     public GroupListPanelHandle getGroupListPanel() {
         return groupListPanel;
+    }
+
+    public MeetingListPanelHandle getMeetingListPanel() {
+        return meetingListPanel;
     }
 }

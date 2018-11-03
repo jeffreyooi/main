@@ -36,6 +36,8 @@ public class TypicalMeetings {
         }
     }
 
+    public static final String KEYWORD_MATCHING_URGENT = "Urgent";
+
     private TypicalMeetings() {} // prevents instantiation
 
 

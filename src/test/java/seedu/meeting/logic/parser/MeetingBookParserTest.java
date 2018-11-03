@@ -8,6 +8,7 @@ import static seedu.meeting.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.meeting.logic.commands.CommandTestUtil.VALID_MEETING_DESC_WEEKLY;
 import static seedu.meeting.testutil.TypicalGroups.GROUP_2101;
 import static seedu.meeting.testutil.TypicalIndexes.INDEX_FIRST_GROUP;
+import static seedu.meeting.testutil.TypicalIndexes.INDEX_FIRST_MEETING;
 import static seedu.meeting.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.meeting.testutil.TypicalMeetings.WEEKLY;
 
@@ -42,6 +43,9 @@ import seedu.meeting.logic.commands.ListCommand;
 import seedu.meeting.logic.commands.MeetCommand;
 import seedu.meeting.logic.commands.RedoCommand;
 import seedu.meeting.logic.commands.SelectCommand;
+import seedu.meeting.logic.commands.SelectGroupCommand;
+import seedu.meeting.logic.commands.SelectMeetingCommand;
+import seedu.meeting.logic.commands.SelectPersonCommand;
 import seedu.meeting.logic.commands.UndoCommand;
 import seedu.meeting.logic.parser.exceptions.ParseException;
 import seedu.meeting.model.group.Group;
@@ -217,14 +221,21 @@ public class MeetingBookParserTest {
     public void parseCommand_selectPerson() throws Exception {
         SelectCommand command = (SelectCommand) parser.parseCommand(
                 SelectCommand.COMMAND_WORD + " p/" + INDEX_FIRST_PERSON.getOneBased());
-        assertEquals(new SelectCommand(INDEX_FIRST_PERSON, SelectCommand.SelectCommandType.PERSON), command);
+        assertEquals(new SelectPersonCommand(INDEX_FIRST_PERSON), command);
     }
 
     @Test
     public void parseCommand_selectGroup() throws Exception {
         SelectCommand command = (SelectCommand) parser.parseCommand(
                 SelectCommand.COMMAND_WORD + " g/" + INDEX_FIRST_GROUP.getOneBased());
-        assertEquals(new SelectCommand(INDEX_FIRST_GROUP, SelectCommand.SelectCommandType.GROUP), command);
+        assertEquals(new SelectGroupCommand(INDEX_FIRST_GROUP), command);
+    }
+
+    @Test
+    public void parseCommand_selectMeeting() throws Exception {
+        SelectCommand command = (SelectCommand) parser.parseCommand(
+            SelectCommand.COMMAND_WORD + " m/" + INDEX_FIRST_MEETING.getOneBased());
+        assertEquals(new SelectMeetingCommand(INDEX_FIRST_MEETING), command);
     }
 
     @Test

@@ -46,6 +46,8 @@ public class TypicalGroups {
 
     public static final Group GROUP_0 = new GroupBuilder().withTitle("group").build();
 
+    public static final String KEYWORD_MATCHING_PROJECT_2103T = "CS2103T";
+
     private TypicalGroups() {} // prevent instantiation
 
     public static List<Group> getTypicalGroups() {
