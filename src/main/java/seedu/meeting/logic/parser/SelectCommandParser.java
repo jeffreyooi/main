@@ -5,8 +5,6 @@ import static seedu.meeting.logic.parser.CliSyntax.PREFIX_GROUP;
 import static seedu.meeting.logic.parser.CliSyntax.PREFIX_MEETING;
 import static seedu.meeting.logic.parser.CliSyntax.PREFIX_PERSON;
 
-import java.util.stream.Stream;
-
 import seedu.meeting.commons.core.index.Index;
 import seedu.meeting.logic.commands.SelectCommand;
 import seedu.meeting.logic.commands.SelectGroupCommand;
