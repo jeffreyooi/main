@@ -174,12 +174,14 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void setMeeting(Group group, Meeting meeting) throws GroupNotFoundException {
         versionedMeetingBook.setMeeting(group, meeting);
+        updateFilteredGroupList(PREDICATE_SHOW_ALL_GROUPS);
         indicateMeetingBookChanged();
     }
 
     @Override
     public void cancelMeeting(Group group) throws GroupNotFoundException, GroupHasNoMeetingException {
         versionedMeetingBook.cancelMeeting(group);
+        updateFilteredGroupList(PREDICATE_SHOW_ALL_GROUPS);
         indicateMeetingBookChanged();
     }
     // @@author

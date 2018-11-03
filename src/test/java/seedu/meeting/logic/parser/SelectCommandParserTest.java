@@ -10,6 +10,9 @@ import static seedu.meeting.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import org.junit.Test;
 
 import seedu.meeting.logic.commands.SelectCommand;
+import seedu.meeting.logic.commands.SelectGroupCommand;
+import seedu.meeting.logic.commands.SelectMeetingCommand;
+import seedu.meeting.logic.commands.SelectPersonCommand;
 
 /**
  * Test scope: similar to {@code DeleteCommandParserTest}.
@@ -21,20 +24,17 @@ public class SelectCommandParserTest {
 
     @Test
     public void parse_validArgs_returnsSelectCommand() {
-        assertParseSuccess(parser, " p/1",
-            new SelectCommand(INDEX_FIRST_PERSON, SelectCommand.SelectCommandType.PERSON));
+        assertParseSuccess(parser, " p/1", new SelectPersonCommand(INDEX_FIRST_PERSON));
     }
 
     @Test
     public void parse_validArgs_returnsSelectGroupCommand() {
-        assertParseSuccess(parser, " g/1",
-            new SelectCommand(INDEX_FIRST_GROUP, SelectCommand.SelectCommandType.GROUP));
+        assertParseSuccess(parser, " g/1", new SelectGroupCommand(INDEX_FIRST_GROUP));
     }
 
     @Test
     public void parse_validArgs_returnsSelectMeetingCommand() {
-        assertParseSuccess(parser, " m/1",
-            new SelectCommand(INDEX_FIRST_MEETING, SelectCommand.SelectCommandType.MEETING));
+        assertParseSuccess(parser, " m/1", new SelectMeetingCommand(INDEX_FIRST_MEETING));
     }
 
     @Test
