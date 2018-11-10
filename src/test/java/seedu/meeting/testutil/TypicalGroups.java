@@ -24,7 +24,7 @@ import seedu.meeting.model.group.Group;
  */
 public class TypicalGroups {
 
-    public static final String RED = "255,0,0";
+    public static final String RED = "128,0,0";
 
     public static final Group PROJECT_2103T = new GroupBuilder().withTitle("CS2103T Project Team")
             .withDescription("Project group for module CS2103T").withMeeting(WEEKLY)

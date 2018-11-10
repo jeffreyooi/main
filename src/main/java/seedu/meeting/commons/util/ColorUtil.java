@@ -12,10 +12,10 @@ import seedu.meeting.commons.exceptions.IllegalValueException;
  */
 public class ColorUtil {
 
-    public static final String PARSE_FAILURE_MESSAGE =
-        "String must be in format (r,g,b) and each value should be between 0 to 255";
-
     public static final int MAX_COLOR_VALUE = 128;
+
+    public static final String PARSE_FAILURE_MESSAGE =
+        "String must be in format (r,g,b) and each value should be between 0 to " + MAX_COLOR_VALUE;
 
     /**
      * Parses color from String. The format of {@code color} must be in "r,g,b" format.
