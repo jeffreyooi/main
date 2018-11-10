@@ -1,6 +1,7 @@
 package seedu.meeting.commons.util;
 
 import static org.junit.Assert.assertEquals;
+import static seedu.meeting.commons.util.ColorUtil.MAX_COLOR_VALUE;
 import static seedu.meeting.commons.util.ColorUtil.PARSE_FAILURE_MESSAGE;
 
 import org.junit.Rule;
@@ -26,18 +27,31 @@ public class ColorUtilTest {
         thrown.expectMessage(PARSE_FAILURE_MESSAGE);
 
         // Red > 255 -> throws exception
-        ColorUtil.parseColorString(256, 0, 0);
-        // Red < 0 -> throws exception
+        ColorUtil.parseColorString(MAX_COLOR_VALUE + 1, 0, 0);
+
+        thrown.expect(IllegalValueException.class);
+        thrown.expectMessage(PARSE_FAILURE_MESSAGE);
+        // Red < 128 -> throws exception
         ColorUtil.parseColorString(-1, 0, 0);
 
+        thrown.expect(IllegalValueException.class);
+        thrown.expectMessage(PARSE_FAILURE_MESSAGE);
         // Green > 255 -> throws exception
-        ColorUtil.parseColorString(0, 256, 0);
-        // Green < 0 -> throws exception
+        ColorUtil.parseColorString(0, MAX_COLOR_VALUE + 1, 0);
+
+        thrown.expect(IllegalValueException.class);
+        thrown.expectMessage(PARSE_FAILURE_MESSAGE);
+        // Green < 128 -> throws exception
         ColorUtil.parseColorString(0, -1, 0);
 
+        thrown.expect(IllegalValueException.class);
+        thrown.expectMessage(PARSE_FAILURE_MESSAGE);
         // Blue > 255 -> throws exception
-        ColorUtil.parseColorString(0, 0, 256);
-        // Blue < 0 -> throws exception
+        ColorUtil.parseColorString(0, 0, MAX_COLOR_VALUE + 1);
+
+        thrown.expect(IllegalValueException.class);
+        thrown.expectMessage(PARSE_FAILURE_MESSAGE);
+        // Blue < 128 -> throws exception
         ColorUtil.parseColorString(0, 0, -1);
     }
 
