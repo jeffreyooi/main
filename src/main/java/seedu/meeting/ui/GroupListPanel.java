@@ -15,9 +15,9 @@ import seedu.meeting.commons.events.ui.GroupPanelSelectionChangedEvent;
 import seedu.meeting.commons.events.ui.JumpToGroupListRequestEvent;
 import seedu.meeting.model.group.Group;
 
+// @@author jeffreyooi
 /**
  * Panel containing the list of groups.
- * {@author jeffreyooi}
  */
 public class GroupListPanel extends UiPart<Region> {
     private static final String FXML = "GroupListPanel.fxml";

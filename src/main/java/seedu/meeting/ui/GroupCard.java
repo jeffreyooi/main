@@ -18,9 +18,9 @@ import seedu.meeting.model.group.Group;
 import seedu.meeting.model.meeting.Meeting;
 import seedu.meeting.model.shared.Description;
 
+// @@author jeffreyooi
 /**
- * An UI component that displays information of a {@code Group}
- * {@author jeffreyooi}
+ * An UI component that displays information of a {@code Group}.
  */
 public class GroupCard extends UiPart<Region> {
 

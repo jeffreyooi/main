@@ -6,6 +6,7 @@ import static seedu.meeting.logic.parser.CliSyntax.PREFIX_PERSON;
 
 import seedu.meeting.commons.core.index.Index;
 
+// @@author jeffreyooi
 /**
  * Selects a person identified using it's displayed index from the MeetingBook.
  */

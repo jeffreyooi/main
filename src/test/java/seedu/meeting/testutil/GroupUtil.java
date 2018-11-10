@@ -40,7 +40,7 @@ public class GroupUtil {
      */
     public static String getDeleteGroupAsName(Group group) {
         StringBuilder sb = new StringBuilder();
-        sb.append(group.getTitle().fullTitle + " ");
+        sb.append(PREFIX_NAME + group.getTitle().fullTitle + " ");
         return sb.toString();
     }
 

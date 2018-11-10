@@ -6,7 +6,6 @@ import static seedu.meeting.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 
@@ -76,8 +75,7 @@ public class MeetingBook implements ReadOnlyMeetingBook {
      */
     public void setGroups(List<Group> groups) {
         this.groups.setGroups(groups);
-        meetings.setMeetings(groups.stream().filter(group -> group.getMeeting() != null).map(Group::getMeeting)
-            .collect(Collectors.toList()));
+        this.meetings.setMeetings(this.groups.getAllMeetings());
     }
     // @@author
 
@@ -145,28 +143,14 @@ public class MeetingBook implements ReadOnlyMeetingBook {
      */
     public void addGroup(Group group) {
         groups.add(group);
-        if (group.getMeeting() != null) {
-            meetings.add(group.getMeeting());
-        }
-        for (Person p : group.getMembersView()) {
-            Person edited = persons.getPersonByName(p.getName());
-            if (!edited.hasGroup(group)) {
-                edited.addGroup(group);
-                persons.setPerson(p, edited);
-            }
-        }
+        meetings.setMeetings(groups.getAllMeetings());
     }
 
     /**
      * Replaces the given person {@code target} in the list with {@code editedPerson}.
-<<<<<<< HEAD:src/main/java/seedu/meeting/model/MeetingBook.java
      * {@code target} must exist in the MeetingBook.
      * The person identity of {@code editedPerson} must not be the same as another existing person in the MeetingBook.
      *
-=======
-     * {@code target} must exist in the address book.
-     * The person identity of {@code editedPerson} must not be the same as another existing person in the address book.
->>>>>>> master:src/main/java/seedu/address/model/AddressBook.java
      */
     public void updatePerson(Person target, Person editedPerson) throws PersonNotFoundException {
         requireNonNull(editedPerson);
@@ -180,22 +164,17 @@ public class MeetingBook implements ReadOnlyMeetingBook {
 
     /**
      * Replace the given group {@code target} in the list with {@code editedGroup}.
-<<<<<<< HEAD:src/main/java/seedu/meeting/model/MeetingBook.java
      * {@code target} must exist in the MeetingBook.
      * The group identity of {@code editedGroup} must not be the same as another existing group in the MeetingBook.
      *
-=======
-     * {@code target} must exist in the address book.
-     * The group identity of {@code editedGroup} must not be the same as another existing group in the address book.
->>>>>>> master:src/main/java/seedu/address/model/AddressBook.java
      */
     public void updateGroup(Group target, Group editedGroup) throws GroupNotFoundException {
         requireNonNull(editedGroup);
         target.clearMembers();
         editedGroup.setUpMembers();
 
-        meetings.setMeeting(target.getMeeting(), editedGroup.getMeeting());
         groups.setGroup(target, editedGroup);
+        meetings.setMeetings(groups.getAllMeetings());
     }
 
     /**
@@ -216,10 +195,8 @@ public class MeetingBook implements ReadOnlyMeetingBook {
     public void removeGroup(Group group) {
         requireNonNull(group);
         group.clearMembers();
-        if (group.getMeeting() != null) {
-            meetings.remove(group.getMeeting());
-        }
         groups.remove(group);
+        meetings.setMeetings(groups.getAllMeetings());
     }
 
     /**
@@ -234,7 +211,6 @@ public class MeetingBook implements ReadOnlyMeetingBook {
 
         updatePerson(personCopy, person);
         updateGroup(groupCopy, group);
-
     }
 
     /**
@@ -256,20 +232,16 @@ public class MeetingBook implements ReadOnlyMeetingBook {
      * Sets meeting field of {@code group} in the group list to {@code meeting}.
      */
     public void setMeeting(Group group, Meeting meeting) throws GroupNotFoundException {
-        meetings.setMeeting(group.getMeeting(), meeting);
         groups.setMeeting(group, meeting);
+        meetings.setMeetings(groups.getAllMeetings());
     }
 
     /**
      * Resets meeting field of {@code group} in the group list to an empty optional.
      */
     public void cancelMeeting(Group group) throws GroupNotFoundException, GroupHasNoMeetingException {
-        List<Meeting> meetings = groups.asUnmodifiableObservableList().stream().filter(g -> g.isSameGroup(group))
-            .map(Group::getMeeting).collect(Collectors.toList());
-        if (!meetings.isEmpty() && meetings.get(0) != null) {
-            this.meetings.remove(meetings.get(0));
-        }
         groups.cancelMeeting(group);
+        meetings.setMeetings(groups.getAllMeetings());
     }
     // @@author
 

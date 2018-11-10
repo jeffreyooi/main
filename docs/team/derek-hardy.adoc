@@ -4,9 +4,9 @@
 :stylesDir: ../stylesheets
 :repoURL: https://github.com/CS2103-AY1819S1-W17-3/main
 
-Welcome to Derek-Hardy's Portfolio!
+Welcome to Derek-Hardy's Portfolio! I am Zhuang Xinjie, a computer science undergraduate at NUS.
 
-Here you can find details on my contributions to various Software Engineering projects.
+Here you can find details on my contributions to the Software Engineering project.
 
 == PROJECT: MeetingBook
 
@@ -19,7 +19,7 @@ written by https://se-edu.github.io/[SE-EDU].
 
 === Summary of contributions
 
-* **Major enhancement**
+* **Major enhancement 1**
 : added the `Group` class
 
 ** What it does: allow categorisation of persons according to their project group, discussion group and CCA etc.
@@ -27,19 +27,19 @@ written by https://se-edu.github.io/[SE-EDU].
 ** Highlights: This feature is in parallel with person. While it does not affect existing functions, interactions
 between the two in the future can be complex.
 
-* **Major enhancement**
+* **Major enhancement 2**
 : added the ability to add and delete a `Group` into and from the MeetingBook.
 *** What it does: allow creation and deletion of customised `Group` in the MeetingBook.
 *** Justification: This feature allows user to modify the existing categories of people.
 *** Highlights: This feature makes use of `UniqueGroupList` in the AddressBook to manipulate the list of groups.
 
-* **Major enhancement**
+* **Major enhancement 3**
 : added the ability to join and remove an existing contact person into an existing group in the MeetingBook.
 *** What it does: allow to establish membership relation between persons and groups in MeetingBook.
 *** Justification: This feature allows user to modify how existing persons are categorised.
 *** Highlights: This feature makes use of `UniqueGroupList` in person, and `UniquePersonList` in group to keep track of membership relation among them.
 
-* *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] _{give links to collated code files}_
+* *Code contributed*: [https://github.com/CS2103-AY1819S1-W17-3/main/pulls?q=is%3Apr+author%3ADerek-Hardy+is%3Aclosed[Pull requests]]
 
 * *Other contributions*:
 
@@ -52,8 +52,19 @@ https://github.com/CS2103-AY1819S1-W17-3/main/pull/85[#85], https://github.com/C
 https://github.com/CS2103-AY1819S1-W17-3/main/pull/135[#135], https://github.com/CS2103-AY1819S1-W17-3/main/pull/143[#143]
 
 ** Community:
-*** PRs reviewed (with non-trivial review comments): https://github.com/CS2103-AY1819S1-W17-3/main/pull/134[#134]
-
+*** PRs reviewed:
+https://github.com/CS2103-AY1819S1-W17-3/main/pull/47[#47]
+https://github.com/CS2103-AY1819S1-W17-3/main/pull/73[#73]
+https://github.com/CS2103-AY1819S1-W17-3/main/pull/87[#87]
+https://github.com/CS2103-AY1819S1-W17-3/main/pull/95[#95]
+https://github.com/CS2103-AY1819S1-W17-3/main/pull/99[#99]
+https://github.com/CS2103-AY1819S1-W17-3/main/pull/102[#102]
+https://github.com/CS2103-AY1819S1-W17-3/main/pull/107[#107]
+https://github.com/CS2103-AY1819S1-W17-3/main/pull/115[#115]
+https://github.com/CS2103-AY1819S1-W17-3/main/pull/130[#130]
+https://github.com/CS2103-AY1819S1-W17-3/main/pull/133[#133]
+https://github.com/CS2103-AY1819S1-W17-3/main/pull/134[#134]
+https://github.com/CS2103-AY1819S1-W17-3/main/pull/142[#142]
 
 === Contributions to the User Guide
 
@@ -125,6 +136,20 @@ The person should also be an existing member of the group.
 |===
 |_Shown below are my contributions to the Developer Guide. They demonstrates my ability to write technical documentation and highlights the depth and technical details of my contributions to the software engineering project MeetingBook._
 |===
+
+
+=== Model component
+
+.Structure of the Model Component
+image::updatedModelClassDiagram.png[width="800"]
+
+*API* : link:https://github.com/CS2103-AY1819S1-W17-3/main/blob/master/src/main/java/seedu/meeting/model/Model.java[`Model.java`]
+
+[NOTE]
+As a more OOP model, we can store a `Tag` list and a `Group` list in `MeetingBook`, which `Person` can reference.
+This would allow `MeetingBook` to only require one `Tag` object per unique `Tag`, and one `Group` object per
+unique `Group`, instead of each `Person` needing their own `Tag` and `Group` object.
+
 
 === Group feature
 

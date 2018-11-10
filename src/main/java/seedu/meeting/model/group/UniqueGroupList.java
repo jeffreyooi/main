@@ -5,6 +5,7 @@ import static seedu.meeting.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -133,6 +134,16 @@ public class UniqueGroupList implements Iterable<Group> {
                     throw new GroupNotFoundException();
                 });
     }
+
+    // @@author jeffreyooi
+    /**
+     * Returns a list of meetings from group.
+     */
+    public List<Meeting> getAllMeetings() {
+        return internalList.stream().filter(g -> g.getMeeting() != null).map(Group::getMeeting)
+            .collect(Collectors.toList());
+    }
+    // @@author
 
     // @@author Derek-Hardy
     /**
