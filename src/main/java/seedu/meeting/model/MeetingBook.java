@@ -144,6 +144,13 @@ public class MeetingBook implements ReadOnlyMeetingBook {
     public void addGroup(Group group) {
         groups.add(group);
         meetings.setMeetings(groups.getAllMeetings());
+        for (Person p : group.getMembersView()) {
+            Person edited = persons.getPersonByName(p.getName());
+            if (!edited.hasGroup(group)) {
+                edited.addGroup(group);
+                persons.setPerson(p, edited);
+            }
+        }
     }
 
     /**
