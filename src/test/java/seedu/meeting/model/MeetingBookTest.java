@@ -116,6 +116,7 @@ public class MeetingBookTest {
     @Test
     public void removeGroup_groupIsRemoved_returnsFalse() {
         MeetingBook meetingBook = new MeetingBook();
+        meetingBook.addPerson(ALICE);
         meetingBook.addGroup(PROJECT_2103T);
         meetingBook.removeGroup(PROJECT_2103T);
         assertFalse(meetingBook.hasGroup(PROJECT_2103T));

@@ -171,8 +171,8 @@ public class MeetingBook implements ReadOnlyMeetingBook {
         requireNonNull(editedPerson);
 
         // clear membership of target & set up membership for editedPerson
-        target.clearMembership();
-        editedPerson.setUpMembership();
+        //target.clearMembership();
+        //editedPerson.setUpMembership();
 
         persons.setPerson(target, editedPerson);
     }
@@ -198,7 +198,14 @@ public class MeetingBook implements ReadOnlyMeetingBook {
      */
     public void removePerson(Person key) {
         requireNonNull(key);
-        key.clearMembership();
+        //key.clearMembership();
+        for (Group g : groups) {
+            if (g.hasMember(key)) {
+                Group toEdit = g.copy();
+                toEdit.removeMember(key);
+                groups.setGroup(g, toEdit);
+            }
+        }
         persons.remove(key);
     }
 

@@ -199,9 +199,9 @@ public class Group {
         requireNonNull(toAdd);
         this.members.add(toAdd);
 
-        if (!toAdd.hasGroup(this)) {
-            toAdd.addGroup(this);
-        }
+        //if (!toAdd.hasGroup(this)) {
+        //    toAdd.addGroup(this);
+        //}
     }
 
     /**
@@ -212,7 +212,7 @@ public class Group {
         requireNonNull(toRemove);
         this.members.remove(toRemove);
 
-        toRemove.removeGroupHelper(this);
+        //toRemove.removeGroupHelper(this);
     }
 
     // @@author zenious
